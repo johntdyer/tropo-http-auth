@@ -27,7 +27,14 @@ type PapiResponse struct {
 
 func init() {
 	log.SetFormatter(&log.JSONFormatter{})
-	log.SetLevel(log.InfoLevel)
+	if os.Getenv("DEBUG") != "" {
+		log.SetLevel(log.DebugLevel)
+		log.Debug("Starting in debug mode")
+
+	} else {
+		log.SetLevel(log.InfoLevel)
+	}
+
 }
 
 // fetchProvisioningAddressConfig - Return struct from PAPI of user role config data
@@ -66,6 +73,8 @@ func fetchUserRoles(user string, password string) (*PapiResponse, error) {
 			return respJSON, err
 		}
 
+	} else {
+		log.Warnf("Non-2xx response from papi - %v", resp.StatusCode)
 	}
 	return respJSON, nil
 }
