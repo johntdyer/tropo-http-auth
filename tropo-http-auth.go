@@ -3,11 +3,12 @@ package main
 import (
 	"bufio"
 	"encoding/json"
-	log "github.com/Sirupsen/logrus"
 	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
+
+	log "github.com/Sirupsen/logrus"
 )
 
 var (
@@ -43,7 +44,7 @@ func fetchUserRoles(user string, password string) (*PapiResponse, error) {
 	client := &http.Client{}
 	respJSON := &PapiResponse{}
 
-	req, err := http.NewRequest("GET", "https://api.tropo.com/users/"+user+"/roles", nil)
+	req, err := http.NewRequest("GET", "https://api-east-private-prod-internal.tropo.com/users/"+user+"/roles", nil)
 	req.Close = true
 	req.SetBasicAuth(user, password)
 	resp, err := client.Do(req)
